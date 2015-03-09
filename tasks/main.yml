@@ -17,7 +17,18 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart nfs
+  # DEW - This was causing creation of the box to hang, with the following
+  # error in VBox.log:
+  #
+  # 
+  # 00:07:22.681670 Guest Log: 00:00:00.022743 vminfo   Error: Unable to connect to system D-Bus (1/3): Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory
+  # 00:07:27.685070 Guest Log: 00:00:05.026329 vminfo   Error: Unable to connect to system D-Bus (2/3): Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory
+  # 00:07:32.696151 Guest Log: 00:00:10.037807 vminfo   Error: Unable to connect to system D-Bus (3/3): Failed to connect to socket /var/run/dbus/system_bus_socket: No such file or directory
+  #
+  # Since it was causing me problems, I just commented it out! `:-} This
+  # allowed the `packer build centos6.json` command to succeed.
+  #
+  #notify: restart nfs
 
 # Configuration tasks.
 - name: Ensure rpcbind and nfs are running.
